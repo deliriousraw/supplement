@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+<title>Docxtemplater example</title>
+
+<!-- <link rel="stylesheet" type="text/css" href="style/style.css"
+	media="screen" /> -->
+
+<script src="libs/FileSaver.js"></script>
+<script src="libs/jszip-utils.js"></script>
+
+<!-- <script src="libs/docxgen.js"></script> -->
+<script src="libs/docxgen.min.js"></script>
+
+</head>
+<body onload="onLoad()">
+
+<textarea id="templateText" style="width:300px;height:200px;">
+[
+{
+"number_diploma" : "1",
+"date_diploma_receiving" : "15.05.2018",
+"numpber_supplement_diploma" : "1785496",
+"date_receiving_supplement" : "15.05.2018",
+"name_ukr" : "Артем",
+"name_eng" : "Artem",
+"surname_ukr" : "Бодня",
+"surname_eng" : "Bodnia",
+"middlename_ukr" : "Володимирович",
+"middlename_eng" : "Vodolymyrovych",
+"speciality_ukr" : "Магістр, комп'ютерні науки, магістр комп'ютерних наук",
+"speciality_eng" : "Specialist, Computer Science, Specialist of computer science",
+"date_birth" : "08.06.1996",
+"qualification_ukr" : "Комп'ютерні Науки",
+"qualification_eng" : "Computer Science",
+"marks" : [
+{
+	"number" : "1",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "2",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "3",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "4",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+}
+]
+},
+{
+"number_diploma" : "2",
+"date_diploma_receiving" : "15.05.2018",
+"numpber_supplement_diploma" : "1785496",
+"date_receiving_supplement" : "15.05.2018",
+"name_ukr" : "Артем",
+"name_eng" : "Artem",
+"surname_ukr" : "Бодня",
+"surname_eng" : "Bodnia",
+"middlename_ukr" : "Володимирович",
+"middlename_eng" : "Vodolymyrovych",
+"speciality_ukr" : "Магістр, комп'ютерні науки, магістр комп'ютерних наук",
+"speciality_eng" : "Specialist, Computer Science, Specialist of computer science",
+"date_birth" : "08.06.1996",
+"qualification_ukr" : "Комп'ютерні Науки",
+"qualification_eng" : "Computer Science",
+"marks" : [
+{
+	"number" : "1",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "2",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "3",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+},
+{
+	"number" : "4",
+	"course_title_ukr" : "Бюджетний менеджмент",
+	"course_title_eng" : "Budget Management",
+	"period" : "2015-2016",
+	"credits" : "3",
+	"hours" : "90",
+	"mark" : "90",
+	"national_grade_ukr" : "Відмінно",
+	"national_grade_eng" : "Excellent",
+	"grade" : "A"
+}
+]
+}
+
+]
+</textarea>
+<br>
+<input type="file" id="docxTemplateInput">Select docx template</input>
+
+  <script type="text/javascript">
+	function onLoad(){
+			document.getElementById("docxTemplateInput").addEventListener("change", readTemplateFile);
+	}
+
+	readTemplateFile = function(evt) {
+		// Retrieve the first (and only!) File from the FileList object
+		var f = evt.target.files[0];
+
+		if (f) {
+			var text = document.getElementById("templateText").value;
+			var data = JSON.parse(text);
+
+				var r = new FileReader();
+
+				r.onload = function(e) {
+
+					data.forEach(function(item,i,arr){
+						var contents = e.target.result;
+
+						doc = new window.Docxgen(contents);
+						console.log(doc);
+						doc.setData(item);
+						console.log(doc);
+						doc.render();
+						console.log(doc);
+						result = doc.getZip().generate({
+							type : "blob"
+						});
+						console.log(result);
+
+					});
+						var temp = saveAs(result, "output.docx");
+						console.log(temp);
+				}
+				r.readAsBinaryString(f);
+
+
+		} else {
+			alert("Failed to load file");
+		}
+	};
+	</script>
+
+
+</body>
+</html>
